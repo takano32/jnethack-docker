@@ -14,13 +14,17 @@ RUN apt-get install -y curl
 #RUN apt-get install -y build-essential bison flex
 RUN apt-get install -y patch
 RUN apt-get install -y make
+RUN apt-get install -y nkf
+RUN apt-get install -y libncurses-dev
 #RUN apt-get install -y libstdc++
 #RUN apt-get install -y libconfig-dev
-#RUN apt-get install -y libncurses-dev
 
 RUN mkdir -p /opt/jnethack
 RUN cd /opt && curl -SL ${NETHACK_URL} | tar xzf -
 RUN cd /opt/NetHack-3.6.7 && curl -SL ${JNETHACK_URL} | gzip -dc | patch -p1
-RUN cd /opt/NetHack-3.6.7 && sh sys/unix/setup.sh
+RUN cd /opt/NetHack-3.6.7 && sh configure
+#RUN cd /opt/NetHack-3.6.7 && sh sys/unix/setup.sh
+#RUN cd /opt/NetHack-3.6.7 && find . -type f -regex '.*\.[ch]$' | xargs -n 32 nkf -w --overwrite
+
 #RUN cd /opt/NetHack-3.6.7 && make all
 
