@@ -1,4 +1,4 @@
-FROM ubuntu:24.10
+FROM ubuntu:26.04
 LABEL maintainer="TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV NETHACK_URL=https://github.com/takano32/jnethack-docker/files/12524492/nethack-367-src.tgz
