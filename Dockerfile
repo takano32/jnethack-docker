@@ -26,7 +26,7 @@ LABEL maintainer="TAKANO Mitsuhiro <takano32@gmail.com>"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends libncursesw6 \
+ && apt-get install -y --no-install-recommends libncurses6 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /usr/local/games /usr/local/games
