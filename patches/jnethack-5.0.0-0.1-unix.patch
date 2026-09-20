@@ -1,0 +1,24 @@
+JNetHack 5.0.0-0.1 is a Windows-oriented test release: only sys/windows/Makefile.nmake
+knows about japanese/, so the Unix build breaks on the one call site that was left
+behind.  Fix the arity of the version_string_j() call and declare the function.
+
+--- a/include/extern.h
++++ b/include/extern.h
+@@ -3568,6 +3568,7 @@
+ /* ### version.c ### */
+ 
+ extern char *version_string(char *, size_t bufsz) NONNULL NONNULLARG1;
++extern char *version_string_j(char *, size_t) NONNULL NONNULLARG1;
+ extern char *getversionstring(char *, size_t bufsz) NONNULL NONNULLARG1;
+ extern char *status_version(char *, size_t, boolean) NONNULL NONNULLARG1;
+ extern int doversion(void);
+--- a/src/end.c
++++ b/src/end.c
+@@ -674,7 +674,7 @@
+        but we only have access to the one it finished under */
+     putstr(0, 0, getversionstring(pbuf, sizeof pbuf));
+ #if 1 /*JP*/
+-    putstr(0, 0, version_string_j(pbuf));
++    putstr(0, 0, version_string_j(pbuf, sizeof pbuf));
+ #endif
+     putstr(0, 0, "");
