@@ -16,15 +16,12 @@ RUN curl -fSL ${NETHACK_URL} | tar xzf - --strip-components=1 \
 
 # 5.0.0-0.1 only wires japanese/ into the Windows nmake build
 COPY patches/jnethack-5.0.0-0.1-unix.patch /tmp/
-RUN patch -p1 < /tmp/jnethack-5.0.0-0.1-unix.patch \
- && cp japanese/jlib.c japanese/jconj.c src/
+RUN patch -p1 < /tmp/jnethack-5.0.0-0.1-unix.patch
 
 RUN (cd sys/unix && sh setup.sh hints/linux.500) \
- && make fetch-lua
-
-# POSIX_ICONV picks the iconv code path, ICUTF8 the UTF-8 internal code
-RUN make all     CC="cc -DPOSIX_ICONV -DICUTF8" HINTOBJ="jlib.o jconj.o" PREFIX=/usr/local \
- && make install CC="cc -DPOSIX_ICONV -DICUTF8" HINTOBJ="jlib.o jconj.o" PREFIX=/usr/local
+ && make fetch-lua \
+ && make all     PREFIX=/usr/local \
+ && make install PREFIX=/usr/local
 
 
 FROM ubuntu:26.04
