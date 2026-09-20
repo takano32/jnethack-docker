@@ -1,0 +1,13 @@
+services:
+  jnethack:
+    image: ghcr.io/takano32/jnethack-docker
+    build: .
+    stdin_open: true
+    tty: true
+    environment:
+      TERM: ${TERM:-xterm-256color}
+    volumes:
+      - playground:/usr/local/games/lib/nethackdir
+
+volumes:
+  playground:

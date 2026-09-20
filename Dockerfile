@@ -37,6 +37,14 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /usr/local/games /usr/local/games
-RUN /usr/local/games/lib/nethackdir/nethack --version
+COPY docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["/usr/local/games/nethack"]
+# The playground is kept empty and seeded from the pristine copy at startup,
+# so that a volume mounted over it survives an image update.
+RUN mv /usr/local/games/lib/nethackdir /usr/local/share/nethackdir \
+ && docker-entrypoint.sh /usr/local/games/nethack --version \
+ && rm -rf /usr/local/games/lib/nethackdir \
+ && mkdir /usr/local/games/lib/nethackdir
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/usr/local/games/nethack"]
