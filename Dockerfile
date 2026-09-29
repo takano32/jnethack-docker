@@ -1,7 +1,7 @@
 FROM ubuntu:26.04 AS builder
 
 ARG NETHACK_URL=https://nethack.org/download/5.0.0/nethack-500-src.tgz
-ARG JNETHACK_URL=https://github.com/jnethack/jnethack-release/releases/download/v5.0.0-0.1/jnethack-5.0.0-0.1.diff.gz
+ARG JNETHACK_URL=https://github.com/jnethack/jnethack-release/releases/download/v5.0.0-0.2/jnethack-5.0.0-0.2.diff.gz
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
@@ -14,9 +14,9 @@ WORKDIR /tmp/jnethack
 RUN curl -fSL ${NETHACK_URL} | tar xzf - --strip-components=1 \
  && curl -fSL ${JNETHACK_URL} | gzip -dc | patch -p1
 
-# 5.0.0-0.1 only wires japanese/ into the Windows nmake build
-COPY patches/jnethack-5.0.0-0.1-unix.patch /tmp/
-RUN patch -p1 < /tmp/jnethack-5.0.0-0.1-unix.patch
+# 5.0.0-0.2 only wires japanese/ into the Windows nmake build
+COPY patches/jnethack-5.0.0-0.2-unix.patch /tmp/
+RUN patch -p1 < /tmp/jnethack-5.0.0-0.2-unix.patch
 
 RUN (cd sys/unix && sh setup.sh hints/linux.500) \
  && make fetch-lua \

@@ -1,4 +1,4 @@
-JNetHack 5.0.0-0.1 is a Windows-oriented test release: only sys/windows/Makefile.nmake
+JNetHack 5.0.0-0.1 and -0.2 are Windows-oriented test releases: only sys/windows/Makefile.nmake
 knows about japanese/, so the Unix build has nothing to link jlib.c and jconj.c into,
 POSIX_ICONV/ICUTF8 are never defined, and the one call site of version_string_j() that
 was left behind still uses the old signature.  Restore what 3.6.7-0.2 had.
